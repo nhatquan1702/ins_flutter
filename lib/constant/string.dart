@@ -60,6 +60,7 @@ class ConstantStrings {
   static const String updateInformation  = 'Cập nhật thông tin';
   static const String completed  = 'Hoàn tất';
   static const String notification  = 'Thông báo';
+  static const String reel  = 'Reel';
   static const String pleasePickImageAvatar  = 'Vui lòng chọn ảnh đại diện';
   static const String pleasePickImageCover  = 'Vui lòng chọn ảnh bìa';
   static const String upload  = 'Tải lên';

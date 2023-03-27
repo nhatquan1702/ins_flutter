@@ -2,9 +2,9 @@ import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 
-class FirebaseStorageRepository with ChangeNotifier {
+class FirebaseStorageProvider with ChangeNotifier {
   final FirebaseStorage firebaseStorage;
-  FirebaseStorageRepository({
+  FirebaseStorageProvider({
     required this.firebaseStorage,
   });
 

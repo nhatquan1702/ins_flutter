@@ -4,23 +4,24 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:ins_flutter/constant/component/widget/loading_widget.dart';
-import 'package:ins_flutter/constant/responsive/mobile_layout.dart';
-import 'package:ins_flutter/constant/responsive/web_layout.dart';
 import 'package:ins_flutter/constant/string.dart';
-import 'package:ins_flutter/view/home/comment/provider/comment_provider.dart';
+import 'package:ins_flutter/view/comment/provider/comment_provider.dart';
+import 'package:ins_flutter/view/feed_video/provider/video_provider.dart';
 import 'package:ins_flutter/view/home/provider/home_tab_provider.dart';
-import 'package:ins_flutter/view/home/provider/post_provider.dart';
+import 'package:ins_flutter/view/feed_image/provider/post_provider.dart';
 import 'package:ins_flutter/view/home/provider/user_provider.dart';
 import 'package:ins_flutter/view/login/login_screen.dart';
-import 'package:ins_flutter/view/register/provider/picker_avatar_provider.dart';
+import 'package:ins_flutter/constant/provider/picker_image_provider.dart';
 import 'package:provider/provider.dart';
-import 'constant/responsive/responsive_layout.dart';
 import 'constant/route/route.dart';
 import 'constant/theme.dart';
 import 'constant/provider/image_storage_provider.dart';
 import 'firebase_options.dart';
-import 'view/home/provider/follow_provider.dart';
-import 'view/login/provider/obscure_provider.dart';
+import 'view/account/provider/follow_provider.dart';
+import 'constant/provider/obscure_provider.dart';
+import 'view/home/responsive_layout.dart';
+import 'view/home/widget/mobile_layout.dart';
+import 'view/home/widget/web_layout.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -31,18 +32,19 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => PickerImageNotifier()),
-        ChangeNotifierProvider(create: (_) => ObscureNotifier()),
-        ChangeNotifierProvider(create: (_) => SelectedHomeTapNotifier()),
+        ChangeNotifierProvider(create: (_) => PickerImageProvider()),
+        ChangeNotifierProvider(create: (_) => ObscureProvider()),
+        ChangeNotifierProvider(create: (_) => SelectedHomeTapProvider()),
         ChangeNotifierProvider(
-          create: (_) => FirebaseStorageRepository(
+          create: (_) => FirebaseStorageProvider(
             firebaseStorage: FirebaseStorage.instance,
           ),
         ),
         ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => FollowNotifier()),
-        ChangeNotifierProvider(create: (_) => PostNotifier()),
-        ChangeNotifierProvider(create: (_) => CommentNotifier()),
+        ChangeNotifierProvider(create: (_) => FollowProvider()),
+        ChangeNotifierProvider(create: (_) => PostProvider()),
+        ChangeNotifierProvider(create: (_) => VideoProvider()),
+        ChangeNotifierProvider(create: (_) => CommentProvider()),
       ],
       child: const MyApp(),
     ),

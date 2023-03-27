@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class FollowNotifier with ChangeNotifier {
+class FollowProvider with ChangeNotifier {
   bool _isFollow = false;
   bool get isFollow => _isFollow;
 

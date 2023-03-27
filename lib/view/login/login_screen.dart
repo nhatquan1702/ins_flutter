@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:ins_flutter/constant/responsive/dimension.dart';
-import 'package:ins_flutter/constant/responsive/mobile_layout.dart';
-import 'package:ins_flutter/constant/responsive/responsive_layout.dart';
-import 'package:ins_flutter/constant/responsive/web_layout.dart';
+import 'package:ins_flutter/constant/component/setup/dimension.dart';
 import 'package:ins_flutter/constant/string.dart';
 import 'package:ins_flutter/constant/component/widget/snackbar.dart';
 import 'package:ins_flutter/data/repository/user_repository.dart';
 import 'package:ins_flutter/view/home/provider/user_provider.dart';
+import 'package:ins_flutter/view/home/responsive_layout.dart';
+import 'package:ins_flutter/view/home/widget/mobile_layout.dart';
+import 'package:ins_flutter/view/home/widget/web_layout.dart';
 import 'package:provider/provider.dart';
 
-import 'provider/obscure_provider.dart';
+import '../../constant/provider/obscure_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -31,12 +31,12 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController = TextEditingController();
 
   void updateStatus() {
-    context.read<ObscureNotifier>().updateObscure();
+    context.read<ObscureProvider>().updateObscure();
   }
 
   moveToHome(BuildContext context) async {
     if (formKey.currentState!.validate()) {
-      context.read<ObscureNotifier>().setLoadingStatus(true);
+      context.read<ObscureProvider>().setLoadingStatus(true);
       String res = await UserRepository().loginUser(
         email: emailController.text,
         password: passController.text,
@@ -52,11 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               (route) => false);
-          context.read<ObscureNotifier>().setLoadingStatus(false);
+          context.read<ObscureProvider>().setLoadingStatus(false);
         }
       } else {
         if (mounted) {
-          context.read<ObscureNotifier>().setLoadingStatus(false);
+          context.read<ObscureProvider>().setLoadingStatus(false);
           showSnackBarWarning(
             context: context,
             title: ConstantStrings.notification,
@@ -77,8 +77,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final appColor = Theme.of(context);
-    bool isObscure = context.watch<ObscureNotifier>().isObscure;
-    bool isLoading = context.watch<ObscureNotifier>().changeStatusLoading;
+    bool isObscure = context.watch<ObscureProvider>().isObscure;
+    bool isLoading = context.watch<ObscureProvider>().changeStatusLoading;
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(

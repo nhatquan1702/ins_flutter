@@ -1,19 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:ins_flutter/constant/component/setup/dimension.dart';
 import 'package:ins_flutter/constant/component/widget/circle_avatar_widget.dart';
 import 'package:ins_flutter/constant/component/widget/loading_widget.dart';
-import 'package:ins_flutter/constant/responsive/dimension.dart';
 import 'package:ins_flutter/constant/string.dart';
-import 'package:ins_flutter/data/repository/post_repository.dart';
 import 'package:ins_flutter/data/repository/post_repository_new.dart';
 import 'package:ins_flutter/data/repository/user_repository.dart';
-import 'package:ins_flutter/view/home/provider/post_provider.dart';
+import 'package:ins_flutter/view/feed_image/provider/post_provider.dart';
 import 'package:ins_flutter/view/home/provider/user_provider.dart';
 import 'package:ins_flutter/view/login/login_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'follow_widget.dart';
+import 'widget/follow_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
   final String uid;
@@ -30,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     context.read<UserProvider>().refreshUserById(widget.uid);
-    context.read<PostNotifier>().fetchListPostByUser(widget.uid);
+    context.read<PostProvider>().fetchListPostByUser(widget.uid);
   }
 
   @override
@@ -38,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final theme = Theme.of(context);
     final width = MediaQuery.of(context).size.width;
     final userData = context.watch<UserProvider>().userById;
-    final postData = context.watch<PostNotifier>().getListPostByUserId;
+    final postData = context.watch<PostProvider>().getListPostByUserId;
     var isFollow = false;
     if (userData != null) {
       isFollow =
@@ -154,7 +153,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 textColor: theme.canvasColor,
                                                 borderColor: theme.primaryColor,
                                                 function: () async {
-                                                  await PostRepository()
+                                                  await PostRepositoryNew()
                                                       .followUser(
                                                     FirebaseAuth.instance
                                                         .currentUser!.uid,

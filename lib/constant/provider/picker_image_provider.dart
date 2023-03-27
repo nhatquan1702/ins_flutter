@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-class PickerImageNotifier extends ChangeNotifier {
+class PickerImageProvider extends ChangeNotifier {
   File? _fileImage;
   File? get fileImage => _fileImage;
 

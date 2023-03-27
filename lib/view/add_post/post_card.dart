@@ -6,13 +6,13 @@ import 'package:ins_flutter/constant/string.dart';
 import 'package:ins_flutter/constant/component/widget/snackbar.dart';
 import 'package:ins_flutter/data/model/post.dart';
 import 'package:ins_flutter/data/repository/post_repository_new.dart';
-import 'package:ins_flutter/view/home/comment/comment_screen_new.dart';
-import 'package:ins_flutter/view/home/comment/provider/comment_provider.dart';
-import 'package:ins_flutter/view/home/provider/post_provider.dart';
+import 'package:ins_flutter/view/comment/comment_screen_new.dart';
+import 'package:ins_flutter/view/comment/provider/comment_provider.dart';
+import 'package:ins_flutter/view/feed_image/provider/post_provider.dart';
 import 'package:ins_flutter/view/home/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'like_animation.dart';
+import '../feed_image/widget/like_animation.dart';
 
 class PostCard extends StatefulWidget {
   final Post post;
@@ -30,7 +30,7 @@ class _PostCardState extends State<PostCard> {
   void initState() {
     super.initState();
     context.read<UserProvider>().refreshUser();
-    context.read<CommentNotifier>().setCommentLength(widget.post.postId);
+    context.read<CommentProvider>().setCommentLength(widget.post.postId);
   }
 
   likePost(String uid) async {
@@ -58,12 +58,12 @@ class _PostCardState extends State<PostCard> {
     final theme = Theme.of(context);
     final userData = context.watch<UserProvider>().getUser;
     var isLikeAnimating =
-        context.watch<PostNotifier>().isLikeAnimating[widget.post.postId];
+        context.watch<PostProvider>().isLikeAnimating[widget.post.postId];
     if (isLikeAnimating == null) {
       isLikeAnimating = false;
     }
     final cmtLength =
-        context.watch<CommentNotifier>().commentLength[widget.post.postId];
+        context.watch<CommentProvider>().commentLength[widget.post.postId];
 
     return userData == null
         ? SizedBox()
@@ -167,7 +167,7 @@ class _PostCardState extends State<PostCard> {
                     onDoubleTap: () {
                       likePost(userData.uid!);
                       context
-                          .read<PostNotifier>()
+                          .read<PostProvider>()
                           .setLikeAnimating(widget.post.postId, true);
                     },
                     child: Stack(
@@ -212,9 +212,9 @@ class _PostCardState extends State<PostCard> {
                             ),
                             onEnd: () {
                               likePost(userData.uid!);
-                              context.read<PostNotifier>().fetchListPost();
+                              context.read<PostProvider>().fetchListPost();
                               context
-                                  .read<PostNotifier>()
+                                  .read<PostProvider>()
                                   .setLikeAnimating(widget.post.postId, false);
                             },
                           ),
@@ -239,9 +239,9 @@ class _PostCardState extends State<PostCard> {
                                 ),
                           onPressed: () {
                             context
-                                .read<PostNotifier>()
+                                .read<PostProvider>()
                                 .setLikeAnimating(widget.post.postId, true);
-                            context.read<PostNotifier>().fetchListPost();
+                            context.read<PostProvider>().fetchListPost();
                           },
                         ),
                       ),

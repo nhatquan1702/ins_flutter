@@ -2,7 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ins_flutter/constant/component/widget/pick_image_avatar.dart';
+import 'package:ins_flutter/constant/component/widget/pick_image_dialog.dart';
 import 'package:ins_flutter/constant/component/widget/picker_media.dart';
 import 'package:ins_flutter/constant/component/widget/circle_avatar_widget.dart';
 import 'package:ins_flutter/constant/component/widget/loading_widget.dart';
@@ -10,8 +10,8 @@ import 'package:ins_flutter/constant/string.dart';
 import 'package:ins_flutter/data/repository/post_repository_new.dart';
 import 'package:ins_flutter/view/home/provider/user_provider.dart';
 import 'package:ins_flutter/constant/component/widget/snackbar.dart';
-import 'package:ins_flutter/view/login/provider/obscure_provider.dart';
-import 'package:ins_flutter/view/register/provider/picker_avatar_provider.dart';
+import 'package:ins_flutter/constant/provider/obscure_provider.dart';
+import 'package:ins_flutter/constant/provider/picker_image_provider.dart';
 import 'package:provider/provider.dart';
 
 class AddPostScreen extends StatefulWidget {
@@ -30,19 +30,19 @@ class _AddPostScreenState extends State<AddPostScreen> {
 
   final TextEditingController _descriptionController = TextEditingController();
 
-  _selectImage(BuildContext parentContext) async {
+  _selectImage(BuildContext context) async {
     return showChoiceImageDialog(
       context,
       ConstantStrings.choseImage,
       () async {
         Navigator.of(context).pop();
         Uint8List file = await pickImage(ImageSource.gallery);
-        context.read<PickerImageNotifier>().pickerImageUInt8list(file);
+        context.read<PickerImageProvider>().pickerImageUInt8list(file);
       },
       () async {
         Navigator.pop(context);
         Uint8List file = await pickImage(ImageSource.camera);
-        context.read<PickerImageNotifier>().pickerImageUInt8list(file);
+        context.read<PickerImageProvider>().pickerImageUInt8list(file);
       },
     );
   }
@@ -54,7 +54,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     String profImage,
     Uint8List file,
   ) async {
-    context.read<ObscureNotifier>().setLoadingAddPostScreen(true);
+    context.read<ObscureProvider>().setLoadingAddPostScreen(true);
     try {
       String res = await PostRepositoryNew().uploadPost(
         _descriptionController.text,
@@ -64,7 +64,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         profImage,
       );
       if (res == ConstantStrings.success) {
-        context.read<ObscureNotifier>().setLoadingAddPostScreen(false);
+        context.read<ObscureProvider>().setLoadingAddPostScreen(false);
         if (mounted) {
           showSnackBarSuccess(
             context: context,
@@ -83,7 +83,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
         }
       }
     } catch (err) {
-      context.read<ObscureNotifier>().setLoadingAddPostScreen(false);
+      context.read<ObscureProvider>().setLoadingAddPostScreen(false);
       if (mounted) {
         showSnackBarFailure(
           context: context,
@@ -96,7 +96,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   void clearImage() {
-    context.read<PickerImageNotifier>().pickerImageUInt8list(null);
+    context.read<PickerImageProvider>().pickerImageUInt8list(null);
   }
 
   @override
@@ -109,8 +109,8 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final userProvider = context.watch<UserProvider>().getUser;
-    final imageUInt8 = context.watch<PickerImageNotifier>().uInt8list;
-    bool isLoading = context.watch<ObscureNotifier>().loadingAddPostScreen;
+    final imageUInt8 = context.watch<PickerImageProvider>().uInt8list;
+    bool isLoading = context.watch<ObscureProvider>().loadingAddPostScreen;
 
     return userProvider == null
         ? LoadingWidget()

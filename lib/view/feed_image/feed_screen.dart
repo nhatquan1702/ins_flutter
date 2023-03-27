@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ins_flutter/constant/component/setup/dimension.dart';
 import 'package:ins_flutter/constant/component/widget/loading_widget.dart';
-import 'package:ins_flutter/constant/responsive/dimension.dart';
 import 'package:ins_flutter/constant/string.dart';
-import 'package:ins_flutter/view/home/provider/post_provider.dart';
-import 'package:ins_flutter/view/home/widget/search_screen.dart';
+import 'package:ins_flutter/view/feed_image/provider/post_provider.dart';
+import 'package:ins_flutter/view/search/search_screen.dart';
 import 'package:provider/provider.dart';
 
-import 'post_card.dart';
+import '../add_post/post_card.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({Key? key}) : super(key: key);
@@ -19,14 +19,14 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<PostNotifier>().fetchListPost();
+    context.read<PostProvider>().fetchListPost();
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final theme = Theme.of(context);
-    final listPost = context.watch<PostNotifier>().getListPost;
+    final listPost = context.watch<PostProvider>().getListPost;
 
     return Scaffold(
       backgroundColor: theme.cardColor,

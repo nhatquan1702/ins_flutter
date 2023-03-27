@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:ins_flutter/constant/component/widget/pick_image_avatar.dart';
+import 'package:ins_flutter/constant/component/setup/dimension.dart';
+import 'package:ins_flutter/constant/component/widget/pick_image_dialog.dart';
 import 'package:ins_flutter/constant/component/widget/picker_media.dart';
-import 'package:ins_flutter/constant/responsive/dimension.dart';
 import 'package:ins_flutter/constant/string.dart';
 import 'package:ins_flutter/constant/component/widget/base_button.dart';
 import 'package:ins_flutter/constant/component/widget/snackbar.dart';
 import 'package:ins_flutter/data/repository/user_repository.dart';
-import 'package:ins_flutter/view/login/provider/obscure_provider.dart';
-import 'package:ins_flutter/view/register/provider/picker_avatar_provider.dart';
+import 'package:ins_flutter/constant/provider/obscure_provider.dart';
+import 'package:ins_flutter/constant/provider/picker_image_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'widget/avatar_picker.dart';
@@ -27,19 +27,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController bioController = TextEditingController();
   void updateStatus() {
-    context.read<ObscureNotifier>().updateObscure();
+    context.read<ObscureProvider>().updateObscure();
   }
 
   void updateStatusAgain() {
-    context.read<ObscureNotifier>().updateObscureAgain();
+    context.read<ObscureProvider>().updateObscureAgain();
   }
 
   @override
   Widget build(BuildContext context) {
     final appColor = Theme.of(context);
-    bool isObscure = context.watch<ObscureNotifier>().isObscure;
-    bool isObscureAgain = context.watch<ObscureNotifier>().isObscureAgain;
-    final imageAvatar = context.watch<PickerImageNotifier>().fileImage;
+    bool isObscure = context.watch<ObscureProvider>().isObscure;
+    bool isObscureAgain = context.watch<ObscureProvider>().isObscureAgain;
+    final imageAvatar = context.watch<PickerImageProvider>().fileImage;
     final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -70,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ConstantStrings.avatar,
                       () async {
                         context
-                            .read<PickerImageNotifier>()
+                            .read<PickerImageProvider>()
                             .pickerImageFile(
                                 await pickImageFromGallery(context));
                         if (mounted) {
@@ -79,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       },
                       () async {
                         context
-                            .read<PickerImageNotifier>()
+                            .read<PickerImageProvider>()
                             .pickerImageFile(
                                 await pickImageFromCamera(context));
                         if (mounted) {

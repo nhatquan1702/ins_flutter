@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class SelectedHomeTapNotifier with ChangeNotifier {
+class SelectedHomeTapProvider with ChangeNotifier {
   int _selectedIndex = 0;
 
   int get selectedIndex => _selectedIndex;

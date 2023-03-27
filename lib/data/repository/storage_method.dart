@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:ins_flutter/constant/component/widget/picker_media.dart';
 import 'package:uuid/uuid.dart';
 
 class StorageMethods {
@@ -24,6 +25,23 @@ class StorageMethods {
 
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  Future<String> uploadVideoToStorage(String id, String videoPath) async {
+    Reference ref = _storage.ref().child('videos').child(id);
+
+    UploadTask uploadTask = ref.putFile(await compressVideo(videoPath));
+    TaskSnapshot snap = await uploadTask;
+    String downloadUrl = await snap.ref.getDownloadURL();
+    return downloadUrl;
+  }
+
+  Future<String> uploadThumbnailsToStorage(String id, String videoPath) async {
+    Reference ref = _storage.ref().child('thumbnails').child(id);
+    UploadTask uploadTask = ref.putFile(await getThumbnail(videoPath));
+    TaskSnapshot snap = await uploadTask;
+    String downloadUrl = await snap.ref.getDownloadURL();
     return downloadUrl;
   }
 }

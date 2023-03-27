@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ObscureNotifier with ChangeNotifier {
+class ObscureProvider with ChangeNotifier {
   bool _isObscure = true;
   bool _isObscureAgain = true;
   bool _changeStatusLoading = false;

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ins_flutter/data/model/post.dart';
 import 'package:ins_flutter/data/repository/post_repository_new.dart';
 
-class PostNotifier with ChangeNotifier {
+class PostProvider with ChangeNotifier {
   Post? _post;
   Post? get post => _post;
 

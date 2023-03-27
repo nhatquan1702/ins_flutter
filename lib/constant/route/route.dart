@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ins_flutter/constant/string.dart';
-import 'package:ins_flutter/view/home/widget/add_post_screen.dart';
+import 'package:ins_flutter/view/add_post/widget/add_post_screen.dart';
 import 'package:ins_flutter/view/login/login_screen.dart';
 import 'package:ins_flutter/view/register/register_screen.dart';
 

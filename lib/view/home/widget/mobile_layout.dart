@@ -23,7 +23,7 @@ class _MobileLayoutState extends State<MobileLayout> {
   @override
   Widget build(BuildContext context) {
     final int selectedIndex =
-        context.watch<SelectedHomeTapNotifier>().selectedIndex;
+        context.watch<SelectedHomeTapProvider>().selectedIndex;
     final theme = Theme.of(context);
 
     return Container(
@@ -57,8 +57,8 @@ class _MobileLayoutState extends State<MobileLayout> {
                 backgroundColor: theme.cardColor,
               ),
               BottomNavigationBarItem(
-                icon: const Icon(Icons.notifications),
-                label: ConstantStrings.notification,
+                icon: const Icon(Icons.video_collection),
+                label: ConstantStrings.reel,
                 backgroundColor: theme.cardColor
               ),
               BottomNavigationBarItem(
@@ -71,7 +71,7 @@ class _MobileLayoutState extends State<MobileLayout> {
             unselectedItemColor: theme.canvasColor.withOpacity(0.6),
             currentIndex: selectedIndex,
             onTap: (int index) =>
-                context.read<SelectedHomeTapNotifier>().onItemTapped(index),
+                context.read<SelectedHomeTapProvider>().onItemTapped(index),
           ),
         ),
       ),

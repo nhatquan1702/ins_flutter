@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ins_flutter/constant/component/setup/dimension.dart';
 import 'package:ins_flutter/constant/component/widget/circle_avatar_widget.dart';
 import 'package:ins_flutter/constant/component/widget/loading_widget.dart';
 import 'package:ins_flutter/constant/component/widget/snackbar.dart';
-import 'package:ins_flutter/constant/responsive/dimension.dart';
 import 'package:ins_flutter/constant/string.dart';
 import 'package:ins_flutter/data/model/comment.dart';
 import 'package:ins_flutter/data/repository/post_repository_new.dart';
-import 'package:ins_flutter/view/home/comment/provider/comment_provider.dart';
+import 'package:ins_flutter/view/comment/provider/comment_provider.dart';
 import 'package:ins_flutter/view/home/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
@@ -28,7 +28,7 @@ class _CommentsScreenState extends State<NewCommentsScreen> {
   @override
   void initState() {
     context.read<UserProvider>().refreshUser();
-    context.read<CommentNotifier>().fetchListComment(widget.postId);
+    context.read<CommentProvider>().fetchListComment(widget.postId);
     super.initState();
   }
 
@@ -54,13 +54,8 @@ class _CommentsScreenState extends State<NewCommentsScreen> {
 
       if (res == ConstantStrings.success) {
         if (mounted) {
-          context.read<CommentNotifier>().setCommentLength(widget.postId);
-          context.read<CommentNotifier>().fetchListComment(widget.postId);
-          // showSnackBarSuccess(
-          //   context: context,
-          //   title: ConstantStrings.comment,
-          //   message: res,
-          // );
+          context.read<CommentProvider>().setCommentLength(widget.postId);
+          context.read<CommentProvider>().fetchListComment(widget.postId);
         }
       }
       setState(() {
@@ -81,7 +76,7 @@ class _CommentsScreenState extends State<NewCommentsScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final user = context.watch<UserProvider>().getUser;
-    final listComment = context.watch<CommentNotifier>().getListComment;
+    final listComment = context.watch<CommentProvider>().getListComment;
     final width = MediaQuery.of(context).size.width;
 
     return user == null

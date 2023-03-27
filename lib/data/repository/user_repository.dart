@@ -66,7 +66,7 @@ class UserRepository {
         String uid = _auth.currentUser!.uid;
         if (imageAvatar != null) {
           photoAvatarUrl = await context
-              .read<FirebaseStorageRepository>()
+              .read<FirebaseStorageProvider>()
               .storeFileToFirebase(
                 'pickerImageAvatar/$uid',
                 imageAvatar,

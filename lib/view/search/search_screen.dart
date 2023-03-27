@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:ins_flutter/constant/component/widget/circle_avatar_widget.dart';
-import 'package:ins_flutter/constant/component/widget/loading_widget.dart';
 import 'package:ins_flutter/constant/string.dart';
-import 'package:ins_flutter/view/home/provider/post_provider.dart';
+import 'package:ins_flutter/view/feed_image/provider/post_provider.dart';
 import 'package:ins_flutter/view/home/provider/user_provider.dart';
-import 'package:ins_flutter/view/home/widget/search_post_card.dart';
-import 'package:ins_flutter/view/login/provider/obscure_provider.dart';
+import 'package:ins_flutter/view/search/widget/search_post_card.dart';
+import 'package:ins_flutter/constant/provider/obscure_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'profile_screen.dart';
+import '../account/profile_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   final bool isSearchPost;
@@ -30,7 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final postSearch = context.watch<PostNotifier>().getListPostBySearch;
+    final postSearch = context.watch<PostProvider>().getListPostBySearch;
     final userSearch = context.watch<UserProvider>().getListUserBySearch;
 
     return Scaffold(
@@ -61,25 +60,25 @@ class _SearchScreenState extends State<SearchScreen> {
             hintStyle: theme.textTheme.bodyMedium,
           ),
           style: theme.textTheme.bodyLarge,
-          autofocus: context.watch<ObscureNotifier>().keySearchScreen.isEmpty
+          autofocus: context.watch<ObscureProvider>().keySearchScreen.isEmpty
               ? false
               : true,
           textInputAction: TextInputAction.search,
           onChanged: (String value) {
             if (widget.isSearchPost) {
-              context.read<PostNotifier>().searchPost(value);
+              context.read<PostProvider>().searchPost(value);
             } else {
               context.read<UserProvider>().searchUser(value);
             }
-            context.read<ObscureNotifier>().setKeySearchScreen(value);
+            context.read<ObscureProvider>().setKeySearchScreen(value);
           },
           onSubmitted: (String value) {
             if (widget.isSearchPost) {
-              context.read<PostNotifier>().searchPost(value);
+              context.read<PostProvider>().searchPost(value);
             } else {
               context.read<UserProvider>().searchUser(value);
             }
-            context.read<ObscureNotifier>().setKeySearchScreen(value);
+            context.read<ObscureProvider>().setKeySearchScreen(value);
           },
         ),
         actions: [
@@ -91,7 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 if (searchController.text != '') {
                   searchController.clear();
                   searchController.text = '';
-                  context.read<ObscureNotifier>().setKeySearchScreen('');
+                  context.read<ObscureProvider>().setKeySearchScreen('');
                 }
               },
               icon: Icon(
@@ -114,7 +113,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ))
           : (userSearch == null
-              ? LoadingWidget()
+              ? SizedBox()
               : ListView.builder(
                   itemCount: userSearch.length,
                   itemBuilder: (context, index) {

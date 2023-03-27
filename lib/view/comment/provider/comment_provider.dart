@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:ins_flutter/data/model/comment.dart';
 import 'package:ins_flutter/data/repository/comment_repository.dart';
 
-class CommentNotifier with ChangeNotifier {
+class CommentProvider with ChangeNotifier {
   List<Comment>? _listCmt;
   List<Comment>? get getListComment => _listCmt;
 
